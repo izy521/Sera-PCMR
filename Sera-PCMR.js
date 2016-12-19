@@ -18,7 +18,11 @@ var welcomer = new Welcomer(bot, serverID);
 var RA       = new RoleAssigner(bot, serverID);
 
 bot.on('ready', function() {
+    bot.getAllUsers();
     backoff = 0;
+});
+
+bot.on('allUsers', function() {
     console.log("Sera is up!");
 });
 
