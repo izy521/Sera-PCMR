@@ -22,6 +22,6 @@ bot.on('ready', function() {
 
 bot.on('disconnect', function(msg, code) {
 	backoff += 1500;
-	console.log("%s (%d) \nReconnecting in: %dms", err, code, backoff);
+	console.log("%s (%d) \nReconnecting in: %dms", msg, code, backoff);
 	setTimeout(bot.connect, backoff);
 });
