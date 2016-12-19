@@ -66,7 +66,8 @@ function hasRole(client, IDs) {
 }
 
 function notAllowed(client, IDs, error) {
-    info(JSON.stringify(error));
+    info(error.message);
+    info(error.stack);
     return client.addReaction(react(IDs, reactions.ER));
 }
 
