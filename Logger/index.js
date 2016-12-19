@@ -71,6 +71,8 @@ function handleEvents(client, serverID, channelID, event) {
     return embed ? client.sendMessage({
         to: channelID,
         embed: embed
+    }, function(err) {
+        return err ? info(JSON.stringify(err)) : null;
     }) : false;
 }
 

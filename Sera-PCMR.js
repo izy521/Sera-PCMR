@@ -19,6 +19,7 @@ var RA       = new RoleAssigner(bot, serverID);
 
 bot.on('ready', function() {
     backoff = 0;
+    console.log("Sera is up!");
 });
 
 bot.on('disconnect', function(msg, code) {
