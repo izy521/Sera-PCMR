@@ -62,7 +62,7 @@ function handleEvents(client, serverID, channelID, event) {
             embed = createEmbed("Channel updated", colors.channel_updated, [
                 { name: "Channel Name", value: data.name, inline: true},
                 { name: "Channel ID",   value: data.id,   inline: true}
-            ].concat( changes ? embedifyChanges(changes) : [] ));
+            ].concat( embedifyChanges(changes) ));
             break;
         case "CHANNEL_DELETE":
             embed = createEmbed("Channel deleted", colors.channel_deleted, quickField("Channel ID", data.id));
@@ -121,7 +121,7 @@ function oChanges(o, o2, omit) {
         _changes.push( {k: key, c: [ o[key], o2[key] ]} );
     });
 
-    return _changes[0] ? _changes : false;
+    return _changes;
 }
 
 function creationDate(id) {
