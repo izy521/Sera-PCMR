@@ -2,6 +2,7 @@ var Discord      = require('discord.io');
 var Logger       = require('./Logger/index.js');
 var Welcomer     = require('./Welcomer/index.js');
 var RoleAssigner = require('./RoleAssigner/index.js');
+                   require('./UselessServer');
 
 var backoff   = 0;
 var serverID  = process.env.PCMR_SERVER_ID;
