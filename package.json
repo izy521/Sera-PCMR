@@ -1,0 +1,22 @@
+{
+  "name": "sera-pcmr",
+  "version": "0.0.2",
+  "description": "/r/pcmasterrace's Discord bot",
+  "main": "Sera-PCMR.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/izy521/Sera-PCMR.git"
+  },
+  "author": "izy521",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/izy521/Sera-PCMR/issues"
+  },
+  "homepage": "https://github.com/izy521/Sera-PCMR#readme",
+  "dependencies": {
+    "discord.io": "^2.3.0"
+  }
+}
