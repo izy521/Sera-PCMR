@@ -7,7 +7,7 @@ var message = [
     "Welcome to the server!",
     "We have rules that we'd like you to follow, so make sure to check out the <#155309620540342272> channel.",
     "We hope you enjoy your stay!"
-];
+].join("\n");
 
 function Welcomer(client, serverID) {
     client.on('any', function handleWelcomerEvent(event) {
@@ -17,13 +17,15 @@ function Welcomer(client, serverID) {
     });
 }
 
-module.exports = Welcomer;
-
 function welcome(client, userID) {
     client.sendMessage({
         to: userID,
-        message: message.join("\n")
+        message: message
     }, function(err, res) {
-        if (err) return info(JSON.stringify(err));
+        if (!err) return 
+        info(err.message);
+        info(err.stack);
     });
 }
+
+module.exports = Welcomer;
