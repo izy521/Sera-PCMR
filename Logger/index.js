@@ -58,10 +58,11 @@ function handleEvents(client, serverID, channelID, event) {
             embed = createEmbed("Channel created", colors.channel_created, quickField("Channel ID", data.id));
             break;
         case "CHANNEL_UPDATE":
-            changes = oChanges( client.channels[data.id], data, ["last_message_id", "members", "permission_overwrites"] );
-            embed = createEmbed("Channel updated", colors.channel_updated, quickField("Channel ID", data.id).concat(
-                changes ? embedifyChanges(changes) : []
-            ));
+            changes = oChanges( client.channels[data.id], data, ["last_message_id", "members", "permission_overwrites", "permissions"] );
+            embed = createEmbed("Channel updated", colors.channel_updated, [
+                { name: "Channel Name", value: data.name, inline: true},
+                { name: "Channel ID",   value: data.id,   inline: true}
+            ].concat( changes ? embedifyChanges(changes) : [] ));
             break;
         case "CHANNEL_DELETE":
             embed = createEmbed("Channel deleted", colors.channel_deleted, quickField("Channel ID", data.id));
@@ -84,8 +85,8 @@ function createEmbed(title, color, fields) {
 
 function user(userData) {
     return [
-        { name: "Discord Tag", value: `${userData.name}#${userData.tag}`, inline: true },
-        { name: "User ID", value: userData.ID, inline: true }
+        { name: "Discord Tag", value: `${userData.username}#${userData.discriminator}`, inline: true },
+        { name: "User ID",     value: userData.id,                                      inline: true }
     ];
 }
 
@@ -95,7 +96,7 @@ function quickField(name, value) {
 
 function embedifyChanges(changes) {
     return changes.map(function(change) {
-        return { name: change.k, value: `\`${change.c[0]}\` -> \`${change.c[1]}\``, inline: true };
+        return { name: change.k, value: `\`${change.c[0]}\` -> \`${change.c[1]}\`` };
     });
 }
 
@@ -110,12 +111,12 @@ function eyecatch() {
 function oChanges(o, o2, omit) {
     if (!omit) omit = [];
     var _changes = [];
-    for (var key in o) {
-        if (omit.indexOf(key) > -1) continue;
-        if (o[key] === o2[key]) continue;
+    Object.keys(o).forEach(function(key) {
+        if (omit.indexOf(key) > -1) return;
+        if (o[key] === o2[key]) return;
         _changes.push( {k: key, c: [ o[key], o2[key] ]} );
-    }
-    
+    });
+
     return _changes[0] ? _changes : false;
 }
 
