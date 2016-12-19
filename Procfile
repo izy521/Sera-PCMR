@@ -1,1 +1,1 @@
-web: node Sera-PCMR.js
+worker: node Sera-PCMR.js
