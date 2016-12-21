@@ -6,7 +6,8 @@ var info = console.log.bind(console, "[RoleAssigner]");
 var allowed = {
     "Coders":  "229748381159915520",
     "Techies": "229748333114163200",
-    "Players": "222989842739363840"
+    "Players": "222989842739363840",
+    "Weebs":   "261059283024740353"
 };
 
 var reactions = {
