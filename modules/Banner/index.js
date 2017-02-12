@@ -113,7 +113,7 @@ function setBan(client, serverID, details) {
             userID: details.bannedID,
             lastDays: 1
         }, function(err) {
-            if (err) reject(err);
+            if (err) return reject(err);
 
             SeraFBDB.ref(`${process.env.FIREBASE_BANS_DIR}/${details.bannedID}`)
                 .set(details, DBErr => DBErr ? reject(DBErr) : resolve(details));
