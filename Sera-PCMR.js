@@ -14,7 +14,7 @@ var bot = new Discord.Client({
     autorun: true
 });
 
-//var banner   = new Banner(bot, serverID);
+var banner   = new Banner(bot, serverID);
 var welcomer = new Welcomer(bot, serverID);
 var RA       = new RoleAssigner(bot, serverID);
 var logger   = new Logger(bot, serverID, channelID);
