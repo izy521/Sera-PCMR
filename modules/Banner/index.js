@@ -14,7 +14,7 @@ var SeraFB, SeraRD, credentials, SeraFBDB, bansDB, bans, one_day = 864e5;
 credentials = Firebase.credential.cert({
     clientEmail: process.env.FIREBASE_EMAIL,
     projectId:   process.env.FIREBASE_PROJECT_ID,
-    privateKey:  process.env.FIREBASE_PRIVATE_KEY
+    privateKey:  process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n') //Stupid Google
 });
 SeraFB = Firebase.initializeApp({
     credential:  credentials,
