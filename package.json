@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/izy521/Sera-PCMR#readme",
   "dependencies": {
-    "discord.io": "^2.3.0"
+    "discord.io": "^2.3.0",
+    "firebase-admin": "^4.1.0",
+    "snoocore": "^3.3.0"
   }
 }

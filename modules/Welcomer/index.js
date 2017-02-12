@@ -1,3 +1,4 @@
+"use strict";
 /*Tell users to read the rules, 
 with a direct link to the channel,
 when they join.*/
@@ -12,7 +13,7 @@ var message = [
 function Welcomer(client, serverID) {
     client.on('any', function handleWelcomerEvent(event) {
         return  (event.t === 'GUILD_MEMBER_ADD' && event.d.guild_id === serverID) ?
-                (setTimeout( welcome, 3000, client, event.d.user.id ), true) :
+                (setTimeout( welcome, 3000, client, event.d.user.id ) && true) :
                 false;
     });
 }
@@ -21,8 +22,8 @@ function welcome(client, userID) {
     client.sendMessage({
         to: userID,
         message: message
-    }, function(err, res) {
-        if (!err) return 
+    }, function(err) {
+        if (!err) return;
         info(err.message);
         info(err.stack);
     });

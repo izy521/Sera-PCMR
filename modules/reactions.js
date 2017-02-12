@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
     OK: "\u2611",
     NO: "\u274c",

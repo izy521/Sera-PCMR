@@ -1,5 +1,6 @@
 var Discord      = require('discord.io');
 var Logger       = require('./modules/Logger/index.js');
+var Banner       = require('./modules/Banner/index.js');
 var Welcomer     = require('./modules/Welcomer/index.js');
 var RoleAssigner = require('./modules/RoleAssigner/index.js');
                    require('./modules/UselessServer');
@@ -13,9 +14,10 @@ var bot = new Discord.Client({
     autorun: true
 });
 
-var logger   = new Logger(bot, serverID, channelID);
+//var banner   = new Banner(bot, serverID);
 var welcomer = new Welcomer(bot, serverID);
 var RA       = new RoleAssigner(bot, serverID);
+var logger   = new Logger(bot, serverID, channelID);
 
 bot.on('ready', function() {
     bot.getAllUsers();

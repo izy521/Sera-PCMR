@@ -1,3 +1,4 @@
+"use strict";
 /*Inform mods on various things that
 happen in the server*/
 var info = console.log.bind(console, "[Logger]");
@@ -49,7 +50,7 @@ function handleEvents(client, serverID, channelID, event) {
             
             break;*/
         case "GUILD_ROLE_DELETE":
-            payload = [], role = client.servers[data.guild_id].roles[data.role_id];
+            payload = []; role = client.servers[data.guild_id].roles[data.role_id];
             if (role) payload.push({ name: "Role Name", value: role.name, inline: true });
             payload.push({ name: "Role ID", value: data.role_id, inline: true });
             embed = createEmbed("Role deleted", colors.role_deleted, payload);
