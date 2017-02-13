@@ -20,7 +20,7 @@ var RA       = new RoleAssigner(bot, serverID);
 var logger   = new Logger(bot, serverID, channelID);
 
 bot.on('ready', function() {
-    bot.getAllUsers();
+    bot.getAllUsers(console.log);
     backoff = 0;
 });
 

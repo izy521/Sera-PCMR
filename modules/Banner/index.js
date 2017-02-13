@@ -8,8 +8,8 @@ var Snoocore  = require('snoocore');
 var utils     = require('../utils.js');
 var reactions = require('../reactions.js');
 
-var ban_reg = /<@([0-9]+)>\s+(ban)\s+<@([0-9]+)>\s+(\d+.\d+|\d+)($|\s.*|\s\w.*)/;
-var SeraFB, SeraRD, credentials, SeraFBDB, bansDB, bans, one_day = 864e5;
+var ban_reg = /<@[0-9]+>\s+(ban)\s+<@([0-9]+)>\s+(\d+.\d+|\d+)($|\s.*|\s\w.*)/;
+var SeraFB, SeraRD, credentials, SeraFBDB, bansDB, bans, unban_interval, one_day = 864e5;
 
 credentials = Firebase.credential.cert({
     clientEmail: process.env.FIREBASE_EMAIL,
@@ -34,6 +34,7 @@ SeraRD = new Snoocore({
 SeraRD.auth();
 
 function Banner(client, serverID) {
+    unban_interval = setInterval(unban.bind(null, client, serverID), 1e4);
     client.on('ready', handleReady);
     client.on('message', handleMessage.bind(null, client, serverID));
     return client.on('disconnect', n => bansDB.off('value'));
@@ -49,7 +50,7 @@ function handleMessage(client, serverID, username, userID, channelID, message, e
     if (!utils.isExpectedServer(client, channelID, serverID)) return;
     if (!utils.isDirected(client, message)) return;
     if (!utils.isMod(client, serverID, userID)) return;
-    var banDetails = parseBanMessage(message);
+    var banDetails = parseBanMessage(userID, message);
 
     if (!banDetails) {
         return client.addReaction({
@@ -62,17 +63,18 @@ function handleMessage(client, serverID, username, userID, channelID, message, e
     return informUser(client, banDetails)
         .then(setBan.bind(null, client, serverID))
         .then(postToReddit.bind(null, client))
+        .then(confirmBan.bind(null, client, channelID, event.d.id))
         .catch(alertMod.bind(null, client, channelID, event.d.id));
 }
 
-function parseBanMessage(message) {
+function parseBanMessage(userID, message) {
     var match, bannerID, bannedID, reason, duration;
     if (!(match = message.match(ban_reg))) return;
 
-    bannerID    =  match[1];
-    bannedID    =  match[3];
-    reason      =  match[5].trim() || null;
-    duration    =  (one_day * +match[4]);
+    bannerID    =  userID;
+    bannedID    =  match[2];
+    reason      =  match[4].trim() || null;
+    duration    =  (one_day * +match[3]);
 
     return {
         bannerID:       bannerID,
@@ -128,7 +130,8 @@ function postToReddit(client, details) {
     banned = client.users[details.bannedID];
 
     title = [
-        `[User Banned]`,
+        `[Auto]`,
+        `[User ${details.unbanned_after ? "Temp " : ""}Banned]`,
         `${banned ? banned.username : details.bannedID}`,
         `by`,
         `${banner ? banner.username : details.bannerID}`,
@@ -143,7 +146,7 @@ function postToReddit(client, details) {
     ];
 
     if (details.reason) body.push(`The reason is:\n>     ${details.reason}`);
-    if (details.unbanned_after) body.push(`This ban will expire after ${new Date(details.unbanned_after)}`);
+    if (details.unbanned_after) body.push(`This ban will expire after **${new Date(details.unbanned_after)}**`);
     body.push(process.env.REDDIT_FOOTER_MESSAGE);
     body = body.join('\n\n');
 
@@ -156,12 +159,35 @@ function postToReddit(client, details) {
     });
 }
 
+function confirmBan(client, channelID, messageID) {
+    return client.addReaction({
+        channelID: channelID,
+        messageID: messageID,
+        reaction: reactions.OK
+    });
+}
+
 function alertMod(client, channelID, messageID, error) {
     info(error);
     return client.addReaction({
         channelID: channelID,
         messageID: messageID,
         reaction: reactions.ER
+    });
+}
+
+function unban(client, serverID) {
+    if (!bans) return;
+    var now = Date.now();
+    Object.keys(bans).forEach(function(userID) {
+        if (bans[userID].unbanned_after < now) return;
+        client.unban({
+            serverID: serverID,
+            userID: userID
+        }, function(err) {
+            if (err) info(err);
+            SeraFBDB.ref(`${process.env.FIREBASE_BANS_DIR}/${userID}`).set(null);
+        });
     });
 }
 
