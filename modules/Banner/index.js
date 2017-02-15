@@ -8,7 +8,7 @@ var Snoocore  = require('snoocore');
 var utils     = require('../utils.js');
 var reactions = require('../reactions.js');
 
-var ban_reg = /<@[0-9]+>\s+(ban)\s+<@([0-9]+)>\s+(\d+.\d+|\d+)($|\s.*|\s\w.*)/;
+var ban_reg = /<@[0-9]+>\s+(ban)\s+<@([0-9]+)>\s+(\d+\.\d+|\d+)($|\s.*|\s\w.*)/;
 var SeraFB, SeraRD, credentials, SeraFBDB, bansDB, bans, unban_interval, one_day = 864e5;
 
 credentials = Firebase.credential.cert({
