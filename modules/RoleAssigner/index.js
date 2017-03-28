@@ -22,7 +22,7 @@ function handleMessage(client, serverID, username, userID, channelID, message, e
     if ( (message.indexOf(assign) < 0) && (message.indexOf(remove) < 0) ) return;
     var split, roleID, roleName, IDs, allowed;
 
-    allowed = this.allowed.user_allowed;
+    allowed = this.allowed.user_assignable;
     split = message.split(regex);
 
     if (utils.isMod(client, serverId, userID)) {
