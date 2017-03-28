@@ -10,5 +10,8 @@ module.exports = {
         "Coders" : "229748381159915520",
         "Techies": "229748333114163200",
         "Players": "222989842739363840"
+    },
+    "mod_assignable": {
+        "RulesOnly": "296184124564045824"
     }
 };
