@@ -183,6 +183,7 @@ function unban(client, serverID) {
         if (typeof(bans[userID]) !== 'object') return;
         if (bans[userID].unbanned_after === null) return;
         if (bans[userID].unbanned_after > now) return;
+        console.log(bans[userID]);
         client.unban({
             serverID: serverID,
             userID: userID
