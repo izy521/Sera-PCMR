@@ -181,9 +181,8 @@ function unban(client, serverID) {
     var now = Date.now();
     Object.keys(bans).forEach(function(userID) {
         if (typeof(bans[userID]) !== 'object') return;
-        if (bans[userID].unbanned_after === null) return;
+        if (bans[userID].duration === 0) return;
         if (bans[userID].unbanned_after > now) return;
-        console.log(bans[userID]);
         client.unban({
             serverID: serverID,
             userID: userID
