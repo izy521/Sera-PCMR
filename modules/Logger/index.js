@@ -1,8 +1,6 @@
 "use strict";
 /*Inform mods on various things that
 happen in the server*/
-var info = console.log.bind(console, "[Logger]");
-
 var colors = {
     user_joined:     0x52B3D9,
     user_removed:    0xF9BF3B,
@@ -127,4 +125,8 @@ function oChanges(o, o2, omit) {
 
 function creationDate(id) {
     return (+id / 4194304) + 1420070400000;
+}
+
+function info(message) {
+    console.log("[Logger]", `${JSON.stringify(message)}`);
 }

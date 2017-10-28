@@ -2,7 +2,6 @@
 /*Tell users to read the rules, 
 with a direct link to the channel,
 when they join.*/
-var info = console.log.bind(console, "[Welcomer]");
 
 var message = [
     "Welcome to the server!",
@@ -27,6 +26,10 @@ function welcome(client, userID) {
         info(err.message);
         info(err.stack);
     });
+}
+
+function info(message) {
+    console.log("[Welcomer]", `${JSON.stringify(message)}`);
 }
 
 module.exports = Welcomer;

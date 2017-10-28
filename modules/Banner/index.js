@@ -1,8 +1,6 @@
 "use strict";
 /*Overall ban-by-message module
 with reasons included if applicable*/
-var info = console.log.bind(console, "[RoleAssigner]");
-
 var Firebase  = require('firebase-admin');
 var Snoocore  = require('snoocore');
 var utils     = require('../utils.js');
@@ -52,7 +50,7 @@ function handleMessage(client, serverID, username, userID, channelID, message, e
     if (!utils.isMod(client, serverID, userID)) return;
     var banDetails = parseBanMessage(userID, message);
 
-    if (!banDetails) {
+    if (!banDetails && message.indexOf('bans') > -1 /*Change*/) {
         return client.addReaction({
             channelID: channelID,
             messageID: event.d.id,
@@ -191,6 +189,10 @@ function unban(client, serverID) {
             SeraFBDB.ref(`${process.env.FIREBASE_BANS_DIR}/${userID}`).set(null);
         });
     });
+}
+
+function info(message) {
+    console.log("[Banner]", `${JSON.stringify(message)}`);
 }
 
 module.exports = Banner;

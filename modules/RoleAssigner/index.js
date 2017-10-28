@@ -2,8 +2,6 @@
 /*Add or remove users from permission safe roles.
 Intended for mentioning, but people are probably
 just going to use it for getting a colored name.*/
-var info = console.log.bind(console, "[RoleAssigner]");
-
 var utils     = require('../utils.js');
 var allowed   = require('../roles.js').user_assignable;
 var reactions = require('../reactions.js');
@@ -74,6 +72,10 @@ function roleInfo(IDs) {
         userID:   IDs.userID,
         roleID:   IDs.roleID
     };
+}
+
+function info(message) {
+    console.log("[RoleAssigner]", `${JSON.stringify(message)}`);
 }
 
 module.exports = RoleAssigner;
