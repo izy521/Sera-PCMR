@@ -50,7 +50,7 @@ function handleMessage(client, serverID, username, userID, channelID, message, e
     if (!utils.isMod(client, serverID, userID)) return;
     var banDetails = parseBanMessage(userID, message);
 
-    if (message.indexOf('bans') > -1 /*Change*/) {
+    if (!message.includes('bans') /*Change*/) {
         if (!banDetails) {
             return client.addReaction({
                 channelID: channelID,
