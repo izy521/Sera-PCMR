@@ -50,12 +50,15 @@ function handleMessage(client, serverID, username, userID, channelID, message, e
     if (!utils.isMod(client, serverID, userID)) return;
     var banDetails = parseBanMessage(userID, message);
 
-    if (!banDetails && message.indexOf('bans') > -1 /*Change*/) {
-        return client.addReaction({
-            channelID: channelID,
-            messageID: event.d.id,
-            reaction:  reactions.NA
-        });
+    if (message.indexOf('bans') > -1 /*Change*/) {
+        if (!banDetails) {
+            return client.addReaction({
+                channelID: channelID,
+                messageID: event.d.id,
+                reaction:  reactions.NA
+            });
+        }
+        return;
     }
 
     return informUser(client, banDetails)
